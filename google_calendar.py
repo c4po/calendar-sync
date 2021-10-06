@@ -4,6 +4,7 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
+from event import Event
 
 class GoogleCalendar:
 
@@ -34,20 +35,16 @@ class GoogleCalendar:
                                         maxResults=results, singleEvents=True, q=query,
                                         orderBy='startTime').execute()
         events = calendars_result.get('items', [])
-        if not events:
-            print('No upcoming events found.')
-        for event in events:
-            start = event['start'].get('dateTime', event['start'].get('date'))
-            end = event['end'].get('dateTime', event['end'].get('date'))
-            print(start, end, event['summary'])
-
-    def create_google_event(self, start, duration, subject, description):
-        end = start + timedelta(minutes=duration)
+        return list(map (lambda event: Event.googleEvent(event), events))
+        # for event in events:
+    
+    def create_google_event(self, event):
         event_result = self.service.events().insert(calendarId='primary',
            body={
-               "summary": subject,
-               "description": description,
-               "start": {"dateTime": start.isoformat(), "timeZone": 'America/Toronto'},
-               "end": {"dateTime": end.isoformat(), "timeZone": 'America/Toronto'},
+               "summary": event.summary,
+               "description": event.description,
+               "start": {"dateTime": event.start.isoformat(), "timeZone": 'America/Toronto'},
+               "end": {"dateTime": event.end.isoformat(), "timeZone": 'America/Toronto'},
            }
         ).execute()
+        return event_result
