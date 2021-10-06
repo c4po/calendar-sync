@@ -8,6 +8,7 @@ CalendarSyncDays=10
 def main():
     googleCalendar = GoogleCalendar()
     outlookCalendar = OutlookCalendar()
+
     print('Getting list of calendars')
     googleCheckBegin = datetime.utcnow()-timedelta(days=1)
     googleEvents = googleCalendar.get_google_calendar(googleCheckBegin.isoformat()+'Z',100,CalendarPrefix)
@@ -28,6 +29,12 @@ def main():
         print (event.start, event.end, event.summary)
         googleCalendar.create_google_event(event)
 
+
+    googleEvents = googleCalendar.get_google_calendar(googleCheckBegin.isoformat()+'Z',100)
+    newGoogleEvents = [event for event in googleEvents if not event.summary.startswith(CalendarPrefix)]
+
+    for event in newGoogleEvents:
+        outlookCalendar.create_outlook_event(event.start, 30, event.summary, event.description)
 
 if __name__ == '__main__':
     main()

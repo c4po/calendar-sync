@@ -14,6 +14,7 @@ class Event:
         end = datetime.strptime(event['end'].get('dateTime', event['end'].get('date')), '%Y-%m-%dT%H:%M:%S%z')
         summary = event['summary']
         description = event.get('description',"")
+        eventid = event['id']
         e = cls(start,end,summary,description)
         return e
 

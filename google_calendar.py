@@ -48,3 +48,9 @@ class GoogleCalendar:
            }
         ).execute()
         return event_result
+
+    def delete_google_event(self, event):
+        event_result = self.service.events().delete(calendarId='primary',
+           eventId=event.eventid
+        ).execute()
+        return event_result
