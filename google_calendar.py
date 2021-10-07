@@ -31,9 +31,9 @@ class GoogleCalendar:
     def __init__(self):
         self.service = self.get_calendar_service()
 
-    def get_google_calendar(self, begin, results, prefix, query=""):
+    def get_google_calendar(self, begin, end, prefix, query=""):
         calendars_result = self.service.events().list(calendarId='primary', timeMin=begin,
-                                                      maxResults=results, singleEvents=True, q=query,
+                                                      timeMax=end, singleEvents=True, q=query,
                                                       orderBy='startTime').execute()
         events = calendars_result.get('items', [])
         return list(map(lambda event: Event.googleEvent(event, prefix), events))

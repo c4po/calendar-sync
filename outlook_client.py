@@ -18,11 +18,11 @@ class OutlookCalendar:
         calendar = calendar.Restrict(restriction)
         return list(map(lambda event: Event.outlookEvent(event, prefix), calendar))
 
-    def create_outlook_event(self, start, duration, subject, description):
+    def create_outlook_event(self, event):
         appointment = self.outlook.CreateItem(1)  # 1=outlook appointment item
-        appointment.Start = start
-        appointment.Subject = subject
-        appointment.body = description
-        appointment.Duration = duration
+        appointment.Start = event.start
+        appointment.Subject = event.summary
+        appointment.body = event.description
+        appointment.Duration = int((event.end-event.start).seconds/60)
         appointment.Save()
         return
