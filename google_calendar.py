@@ -6,6 +6,7 @@ from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from event import Event
 
+
 class GoogleCalendar:
 
     def get_calendar_service(self):
@@ -32,25 +33,25 @@ class GoogleCalendar:
 
     def get_google_calendar(self, begin, results, prefix, query=""):
         calendars_result = self.service.events().list(calendarId='primary', timeMin=begin,
-                                        maxResults=results, singleEvents=True, q=query,
-                                        orderBy='startTime').execute()
+                                                      maxResults=results, singleEvents=True, q=query,
+                                                      orderBy='startTime').execute()
         events = calendars_result.get('items', [])
-        return list(map (lambda event: Event.googleEvent(event, prefix), events))
+        return list(map(lambda event: Event.googleEvent(event, prefix), events))
         # for event in events:
-    
+
     def create_google_event(self, event):
         event_result = self.service.events().insert(calendarId='primary',
-           body={
-               "summary": event.summary,
-               "description": event.description,
-               "start": {"dateTime": event.start.isoformat(), "timeZone": 'America/Toronto'},
-               "end": {"dateTime": event.end.isoformat(), "timeZone": 'America/Toronto'},
-           }
-        ).execute()
+                                                    body={
+                                                        "summary": event.summary,
+                                                        "description": event.description,
+                                                        "start": {"dateTime": event.start.isoformat(), "timeZone": 'America/Toronto'},
+                                                        "end": {"dateTime": event.end.isoformat(), "timeZone": 'America/Toronto'},
+                                                    }
+                                                    ).execute()
         return event_result
 
     def delete_google_event(self, event):
         event_result = self.service.events().delete(calendarId='primary',
-           eventId=event.eventid
-        ).execute()
+                                                    eventId=event.eventid
+                                                    ).execute()
         return event_result
