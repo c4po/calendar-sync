@@ -11,7 +11,7 @@ def main():
     configParser.read(configFile)
     OutlookCalendarPrefix = "=["+configParser.get('Outlook', 'prefix')+"]="
     GoogleCalendarPrefix = "=["+configParser.get('Google', 'prefix')+"]="
-    CalendarSyncDays = 2
+    CalendarSyncDays = 3
 
     googleCalendar = GoogleCalendar()
     outlookCalendar = OutlookCalendar()
