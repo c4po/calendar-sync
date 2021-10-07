@@ -1,0 +1,9 @@
+[Outlook]
+prefix = CPPIB
+daytosync = 2
+write = true
+
+[Google]
+prefix = Google
+daytosync = 2
+write = true

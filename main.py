@@ -35,48 +35,46 @@ def main():
         filter(lambda x: not x.hasPrefix(GoogleCalendarPrefix), allOutlookEvents))
 
     setOutlookGoogleEvents = set((event.start, event.end, event.summary)
-                          for event in outlookGoogleEvents)
+                                 for event in outlookGoogleEvents)
     newGoogleEvents = [event for event in originOutlookEvents if (
         event.start, event.end, event.summary) not in setOutlookGoogleEvents]
     setOriginOutlookEvents = set((event.start, event.end, event.summary)
-                          for event in originOutlookEvents)
+                                 for event in originOutlookEvents)
     delGoogleEvents = [event for event in outlookGoogleEvents if (
         event.start, event.end, event.summary) not in setOriginOutlookEvents]
-    
+
     setOutlookEvents = set((event.start, event.end, event.summary)
                            for event in googleOutlookEvents)
     newOutlookEvents = [event for event in originGoogleEvents if (
         event.start, event.end, event.summary) not in setOutlookEvents]
 
-    print("========================outlookGoogleEvents")
-    for event in outlookGoogleEvents:
-        print(event.start, event.end, event.summary)
-    print("========================originGoogleEvents")
-    for event in originGoogleEvents:
-        print(event.start, event.end, event.summary)
+    # print("========================outlookGoogleEvents")
+    # for event in outlookGoogleEvents:
+    #     print(event.start, event.end, event.summary)
+    # print("========================originGoogleEvents")
+    # for event in originGoogleEvents:
+    #     print(event.start, event.end, event.summary)
 
-    print("========================googleOutlookEvents")
-    for event in googleOutlookEvents:
-        print(event.start, event.end, event.summary)
-    print("========================originOutlookEvents")
-    for event in originOutlookEvents:
-        print(event.start, event.end, event.summary)
-
+    # print("========================googleOutlookEvents")
+    # for event in googleOutlookEvents:
+    #     print(event.start, event.end, event.summary)
+    # print("========================originOutlookEvents")
+    # for event in originOutlookEvents:
+    #     print(event.start, event.end, event.summary)
 
     print("========================newGoogleEvents")
     for event in newGoogleEvents:
         print(event.start, event.end, event.summary)
-        # googleCalendar.create_google_event(event)
+        googleCalendar.create_google_event(event)
     print("========================delGoogleEvents")
     for event in delGoogleEvents:
         print(event.start, event.end, event.summary)
-        # googleCalendar.delete_google_event(event)
-
+        googleCalendar.delete_google_event(event)
 
     print("========================newOutlookEvents")
     for event in newOutlookEvents:
         print(event.start, event.end, event.summary)
-        # outlookCalendar.create_outlook_event(event)
+        outlookCalendar.create_outlook_event(event)
 
 
 if __name__ == '__main__':

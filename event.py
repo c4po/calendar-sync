@@ -15,10 +15,16 @@ class Event:
 
     @classmethod
     def googleEvent(cls, event, prefix):
-        start = datetime.strptime(event['start'].get(
-            'dateTime', event['start'].get('date')), '%Y-%m-%dT%H:%M:%S%z')
-        end = datetime.strptime(event['end'].get(
-            'dateTime', event['end'].get('date')), '%Y-%m-%dT%H:%M:%S%z')
+        if event['start'].get('dateTime'):
+            start = datetime.strptime(event['start'].get(
+                'dateTime'), '%Y-%m-%dT%H:%M:%S%z')
+        else:
+            start = datetime.strptime(event['start'].get('date'), '%Y-%m-%d')
+        if event['end'].get('dateTime'):
+            end = datetime.strptime(event['end'].get(
+                'dateTime'), '%Y-%m-%dT%H:%M:%S%z')
+        else:
+            end = datetime.strptime(event['end'].get('date'), '%Y-%m-%d')
         if re.match(regPrefix, event['summary']):
             summary = event['summary']
         else:
