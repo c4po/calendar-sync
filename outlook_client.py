@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 import win32com.client
 from event import Event
-
+import pytz
 
 class OutlookCalendar:
     def __init__(self):
@@ -20,9 +20,9 @@ class OutlookCalendar:
 
     def create_outlook_event(self, event):
         appointment = self.outlook.CreateItem(1)  # 1=outlook appointment item
-        appointment.Start = event.start
+        appointment.StartUTC= event.start.astimezone(pytz.utc)
+        appointment.EndUTC = event.end.astimezone(pytz.utc)
         appointment.Subject = event.summary
-        appointment.body = event.description
-        appointment.Duration = int((event.end-event.start).seconds/60)
+        appointment.Body = event.description
         appointment.Save()
         return
